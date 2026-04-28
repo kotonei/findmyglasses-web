@@ -1,0 +1,8 @@
+{
+  "name": "FindMyGlasses",
+  "short_name": "FindMyGlasses",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f0f0f0",
+  "theme_color": "#2e7d32"
+}
