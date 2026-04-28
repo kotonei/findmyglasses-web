@@ -1,8 +1,20 @@
 {
   "name": "FindMyGlasses",
   "short_name": "FindMyGlasses",
-  "start_url": "./index.html",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#f0f0f0",
-  "theme_color": "#2e7d32"
+  "theme_color": "#2e7d32",
+  "icons": [
+    {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Visual_Editor_-_Icon_-_Glasses.svg/192px-Visual_Editor_-_Icon_-_Glasses.svg.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Visual_Editor_-_Icon_-_Glasses.svg/512px-Visual_Editor_-_Icon_-_Glasses.svg.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
