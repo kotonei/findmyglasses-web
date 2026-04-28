@@ -7,7 +7,7 @@
   "theme_color": "#2e7d32",
   "icons": [
     {
-      "src": "./eyeglasses-128x128.png",
+      "src": "./eyeglasses-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
