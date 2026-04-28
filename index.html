@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindMyGlasses Control</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background-color: #f0f0f0; margin: 0; gap: 20px; }
+        button { padding: 20px 40px; font-size: 24px; border-radius: 10px; color: white; border: none; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 80%; max-width: 300px; }
+        button:active { transform: translateY(2px); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        #findBtn { background-color: #2e7d32; }
+        #stopBtn { background-color: #d32f2f; } 
+    </style>
+</head>
+<body>
+
+    <button id="findBtn">Find My Glasses</button>
+    <button id="stopBtn">Stop Alarm</button>
+
+    <script>
+let myGlassesDevice;
+    let myCharacteristic; 
+
+    document.getElementById('findBtn').addEventListener('click', async () => {
+        try {
+            // Reset Stop button UI just in case
+            document.getElementById('stopBtn').innerText = "Stop Alarm";
+            document.getElementById('stopBtn').style.backgroundColor = "#d32f2f";
+
+            myGlassesDevice = await navigator.bluetooth.requestDevice({
+                filters: [{ name: 'FindMyGlasses' }],
+                optionalServices: ['19b10000-e8f2-537e-4f6c-d104768a1214'] 
+            });
+
+            const server = await myGlassesDevice.gatt.connect();
+            const service = await server.getPrimaryService('19b10000-e8f2-537e-4f6c-d104768a1214');
+            myCharacteristic = await service.getCharacteristic('19b10001-e8f2-537e-4f6c-d104768a1214');
+            
+            console.log('Connected! Buzzer is ringing.');
+
+        } catch(error) {
+            console.error('Connection failed!', error);
+        }
+    });
+
+    document.getElementById('stopBtn').addEventListener('click', async () => {
+        const stopBtn = document.getElementById('stopBtn');
+
+        if (myCharacteristic && myGlassesDevice) {
+            try {
+                // 1. Visual feedback so you know you tapped it
+                stopBtn.innerText = "Stopping...";
+                stopBtn.style.backgroundColor = "#555"; // Turns gray
+
+                // 2. Explicitly write with a required response
+                let stopCommand = Uint8Array.of(1);
+                await myCharacteristic.writeValueWithResponse(stopCommand);
+                console.log('Command received by glasses.');
+
+                // 3. Double-tap: Hang up the radio connection as well
+                if (myGlassesDevice.gatt.connected) {
+                    myGlassesDevice.gatt.disconnect();
+                }
+
+            } catch(error) {
+                console.error('Write failed, forcing disconnect.', error);
+                // Fallback: If write fails, just hang up
+                if (myGlassesDevice && myGlassesDevice.gatt.connected) {
+                    myGlassesDevice.gatt.disconnect();
+                }
+            }
+        } else {
+            alert("Please connect to the glasses first!");
+        }
+    });
+    </script>
+
+</body>
+</html>
