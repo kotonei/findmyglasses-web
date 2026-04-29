@@ -1,3 +1,4 @@
 # findmyglasses-web
 
-PNG icons from [https://www.magnific.com/icon/sunglasses_4742988](https://www.magnific.com/icon/sunglasses_4742988)
+PNG icons from [https://www.iconarchive.com/show/fontawesome-icons-by-fa-team/FontAwesome-Glasses-icon.html
+](https://www.iconarchive.com/show/fontawesome-icons-by-fa-team/FontAwesome-Glasses-icon.html)
